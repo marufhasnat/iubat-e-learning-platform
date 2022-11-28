@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load course_tags %}
+
+
+<!-- Ajax-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+	$(".filter-checkbox").on('click', function(){
+		var filter_object={};
+		$(".filter-checkbox").each(function(index,ele){
+			var filter_value=$(this).val();
+			var filter_key=$(this).data('filter');
+		    console.log(filter_key,filter_value);
+			filter_object[filter_key]=Array.from(document.querySelectorAll('input[data-filter='+filter_key+']:checked')).map(function(el){
+			 	return el.value;
+			});
+		});
+
+		$.ajax({
+			url:'{% url 'filter-data' %}',
+			data:filter_object,
+			dataType:'json',
+			success:function(res){
+			    console.log(res)
+				$("#filteredCourses").html(res.data);
+				var filter_value=$(this).val();
+			    var filter_key=$(this).data('filter');
+			}
+		});
+	});
+});
+</script>
+
+<section class="filter-courses mb-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 mb-5">
+            <div class="login-title text-center mt-5">
+              <h2>Courses</h2>
+              <!-- <div class="login-nav"> -->
+              <!-- breadcrumb -->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{%url 'home'%}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Courses
+                  </li>
+                </ol>
+              </nav>
+              <!-- breadcrumb -->
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-12 mb-4">
+            <div class="filtered">
+              <div id="coursefilter1">
+                <div class="filter-category">
+                  <h4
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#coursefiltercollapse1"
+                    aria-expanded="true"
+                    aria-controls="coursefiltercollapse1"
+                  >
+                    Category <i class="fa-solid fa-plus"></i>
+                  </h4>
+                </div>
+              </div>
+              <div
+                id="coursefiltercollapse1"
+                class="collapse show mt-n2 px-6 pb-6"
+                aria-labelledby="coursefilter1"
+                data-parent="#courseSidebar"
+              >
+                <ul class="list-group list-unstyled list-group list-checkbox">
+                    {% for type in category %}
+                  <li class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="form-check-input me-1 custom-control-input filter-checkbox"
+                      id="category-{{type.id}}"
+                      data-filter="category"
+                      value="{{type.id}}"
+                    />
+                    <label
+                      class="custom-control-label font-size-base"
+                      for="category-{{type.id}}"
+                      >{{type.name}} ({{type.course_set.all.count}})</label
+                    >
+                  </li>
+                    {% endfor %}
+                </ul>
+                </div>
+
+              <div id="coursefilter2">
+                <div class="filter-category mt-5">
+                  <h4
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#coursefiltercollapse2"
+                    aria-expanded="true"
+                    aria-controls="coursefiltercollapse2"
+                  >
+                    Price <i class="fa-solid fa-plus"></i>
+                  </h4>
+                </div>
+              </div>
+              <div
+                id="coursefiltercollapse2"
+                class="collapse show mt-n2 px-6 pb-6"
+                aria-labelledby="coursefilter2"
+                data-parent="#courseSidebar"
+              >
+                <ul class="list-group list-unstyled list-group list-checkbox">
+
+                  <li class="custom-control custom-checkbox custom-radio">
+                    <input
+                      type="checkbox"
+                      class="form-check-input me-1 custom-control-input filter-checkbox"
+                      id="price-1"
+                      name="customRadio"
+                      value="PriceAll" data-filter="price"
+                    />
+                    <label
+                      class="custom-control-label font-size-base"
+                      for="price-1"
+                      >All ({{course.all.count}})</label>
+                  </li>
+
+                  <li class="custom-control custom-checkbox custom-radio">
+                    <input
+                      type="checkbox"
+                      class="form-check-input me-1 custom-control-input filter-checkbox"
+                      id="price-2"
+                      name="customRadio"
+                      value="PriceFree" data-filter="price"
+                    />
+                    <label
+                      class="custom-control-label font-size-base"
+                      for="price-2"
+                      >Free ({{freeCourse_count}})</label>
+                  </li>
+
+                  <li class="custom-control custom-checkbox custom-radio">
+                    <input
+                      type="checkbox"
+                      class="form-check-input me-1 custom-control-input filter-checkbox"
+                      id="price-3"
+                      name="customRadio"
+                      value="PricePaid" data-filter="price"
+                    />
+                    <label
+                      class="custom-control-label font-size-base"
+                      for="price-3"
+                      >Paid ({{paidCourse_count}})</label>
+                  </li>
+
+                </ul>
+                </div>
+
+              <div id="coursefilter3">
+                <div class="filter-category mt-5">
+                  <h4
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#coursefiltercollapse3"
+                    aria-expanded="true"
+                    aria-controls="coursefiltercollapse3"
+                  >
+                    Level <i class="fa-solid fa-plus"></i>
+                  </h4>
+                </div>
+              </div>
+              <div
+                id="coursefiltercollapse3"
+                class="collapse show mt-n2 px-6 pb-6"
+                aria-labelledby="coursefilter3"
+                data-parent="#courseSidebar"
+              >
+                <ul class="list-group list-unstyled list-group list-checkbox">
+                    {% for type in level %}
+                  <li class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="form-check-input me-1 custom-control-input filter-checkbox"
+                      id="level-{{type.id}}"
+                      data-filter="level"
+                      value="{{type.id}}"
+                    />
+                    <label
+                      class="custom-control-label font-size-base"
+                      for="level-{{type.id}}"
+                      >{{type.name}} ({{type.course_set.all.count}})</label>
+                  </li>
+                    {% endfor %}
+                </ul>
+                </div>
+            </div>
+          </div>
+          <div class="col-lg-8 col-md-12">
+            <div class="row" id="filteredCourses">
+              {% for single_course in course %}
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="course-img-container">
+                    <img
+                      src="{{single_course.featured_image}}"
+                      class="card-img-top img-fluid"
+                      alt=""
+                    />
+                  </div>
+                  <div class="card-body">
+                    <div class="course-info">
+                      <span style="color: #7783ac">Topic: {{single_course.category.name}}</span>
+                      <a style="text-decoration:none; color:black" href="{{ single_course.get_absolute_url }}"><h5 class="card-title">{{single_course.title}}</h5></a>
+                      <h6>Instructor: <i>{{single_course.instructor.name}}</i></h6>
+                      <p class="card-text">
+                        {{single_course.semi_des}}
+                      </p>
+                      <div class="course-info">
+                        <div class="float-start">
+                          <span style="color: #7783ac"
+                            ><i class="fa-solid fa-clock"></i> 50 min</span>
+                          <br />
+                          <span style="color: #7783ac"
+                            ><i class="fa-solid fa-book"></i> 5 lessons</span>
+                        </div>
+
+                        <div class="float-end">
+                          {% if single_course.price == 0 %}
+                            <h6 style="color: rgb(1, 130, 10); font-weight: 900">
+                              <span class="badge bg-success" style="font-size: 18px">Free</span>
+                            </h6>
+                          {% else %}
+                            <del style="color: red; font-weight: 900">৳ {{single_course.price}}</del>
+                            <h6 style="color: rgb(1, 130, 10); font-weight: 900">
+                                ৳ {% discount_calculation single_course.price single_course.discount %}
+                            </h6>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}

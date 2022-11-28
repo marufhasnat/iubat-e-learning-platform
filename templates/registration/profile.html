@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- register -->
+    <section class="login">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="login-title text-center mt-5">
+              <h2>Profile Update</h2>
+              <!-- <div class="login-nav"> -->
+              <!-- breadcrumb -->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'home' %}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Profile Update
+                  </li>
+                </ol>
+              </nav>
+              <!-- breadcrumb -->
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-10">
+
+            <div class="login-form mt-5">
+              {% include 'components/msg.html' %}
+              <form method="post" action="{% url 'profile_update' %}" class="mt-5">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="exampleFormControlInput3" class="form-label"
+                        >First Name</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="exampleFormControlInput4"
+                        placeholder="Enter first name"
+                        name="first_name"
+                        value="{{user.first_name}}"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="exampleFormControlInput3" class="form-label"
+                        >Last Name</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="exampleFormControlInput5"
+                        placeholder="Enter last name"
+                        name="last_name"
+                        value="{{user.last_name}}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label"
+                        >Email</label
+                      >
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="exampleFormControlInput1"
+                        placeholder="name@example.com"
+                        name="email"
+                        value="{{user.email}}"
+                        style="background: whitesmoke;"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="exampleFormControlInput3" class="form-label"
+                        >Username</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="exampleFormControlInput3"
+                        placeholder="johndoe"
+                        name="username"
+                        value="{{user.username}}"
+                        style="background: whitesmoke;"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="exampleFormControlInput2" class="form-label"
+                    >Password</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="exampleFormControlInput2"
+                    placeholder="Fill only if you want to change password"
+                    name="password"
+                  />
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4">
+                  <button class="btn login-submit" type="submit">
+                    UPDATE PROFILE
+                  </button>
+                </div>
+              </form>
+              <div class="form-sign-up mt-3 mb-5 text-center"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- register -->
+{% endblock %}

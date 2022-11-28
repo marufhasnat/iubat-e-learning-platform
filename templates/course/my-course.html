@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load course_tags %}
+<!-- my-course -->
+    <section class="login">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="login-title text-center mt-5">
+              <h2>My Course</h2>
+              <!-- <div class="login-nav"> -->
+              <!-- breadcrumb -->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'home' %}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    My Course
+                  </li>
+                </ol>
+              </nav>
+              <!-- breadcrumb -->
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+
+        {% include 'components/msg.html' %}
+        <div class="row mt-4 mb-5">
+          {% for single_course in course %}
+          <div class="col-lg-4 col-md-6 mt-1">
+            <div class="card">
+              <div class="course-img-container">
+                <img
+                  src="/{{single_course.course.featured_image}}"
+                  class="card-img-top img-fluid"
+                  alt=""
+                />
+              </div>
+              <div class="card-body">
+                <div class="course-info">
+                  <span style="color: #7783ac">Tags: {{single_course.course.category.name}}</span>
+                  <h5 class="card-title">
+                    {{single_course.course.title}}
+                  </h5>
+                  <h6>Instructor: <i>Jhunkar Mahbub</i></h6>
+                  <p class="card-text">
+                    {{single_course.course.semi_des}}
+                  </p>
+                  <div class="course-info">
+                    <div class="float-start">
+                      <span style="color: #7783ac"
+                        ><i class="fa-solid fa-clock"></i> 50 min</span
+                      ><br />
+                      <span style="color: #7783ac"
+                        ><i class="fa-solid fa-book"></i> 5 lessons</span
+                      >
+                    </div>
+
+                    <div class="float-end">
+                      {% if single_course.course.price == 0 %}
+                            <h6 style="color: rgb(1, 130, 10); font-weight: 900">
+                              <span class="badge bg-success" style="font-size: 18px">Free</span>
+                            </h6>
+                      {% else %}
+                            <del style="color: red; font-weight: 900">৳ {{single_course.price}}</del>
+                            <h6 style="color: rgb(1, 130, 10); font-weight: 900">
+                                ৳ {% discount_calculation single_course.course.price single_course.course.discount %}
+                            </h6>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- my-course -->
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="not-found" style="background-color: #FCFCFC">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-12">
+            <div class="not-found-404 text-center">
+              <img class="img-fluid" src="{% static 'assets/images/loader_failed.gif' %}" alt="" />
+              <div class="failed text-center">
+                  <h3>Payment Failed!</h3>
+                  <p class="mt-3">Please try again! Your payment has not been received!</p>
+                  <a href="{% url 'home' %}" class="btn login-btn mt-3 mb-5">Go to Home</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+{% endblock %}

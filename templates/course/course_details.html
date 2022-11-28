@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load course_tags %}
+<!-- single course -->
+    <hr />
+    <section class="single-course mt-5 mb-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-11">
+            <div class="row">
+              <div class="col-lg-8 col-md-12">
+                <div class="single-course-container">
+                  <div class="single-course-title mt-3">
+                    <h2>
+                      {{course.title}}
+                    </h2>
+                    <p class="mt-4">
+                      {{course.semi_des}}
+                    </p>
+                  </div>
+                  <div class="single-course-des mt-5">
+                    <h4>Course Description</h4>
+
+                    <p class="mt-4 mb-5" style="margin-top: -20px !important;">
+                      {{course.description|linebreaks}}
+                    </p>
+                  </div>
+                  <div class="single-course-learn mt-5">
+                    <h4>What you'll learn</h4>
+                    <ul class="list-group mt-4">
+                      <div class="row">
+                        <div class="col-md-6">
+                          {% for learn in course.what_you_learn_set.all|slice:"0:5" %}
+                          <li>
+                            <i class="fa-sharp fa-solid fa-circle-check"></i>
+                            {{learn.points}}.
+                          </li>
+                          {% endfor %}
+                        </div>
+                        <div class="col-md-6">
+                          {% for learn in course.what_you_learn_set.all|slice:"5:" %}
+                          <li>
+                            <i class="fa-sharp fa-solid fa-circle-check"></i>
+                            {{learn.points}}.
+                          </li>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </ul>
+                  </div>
+                  <div class="single-course-require mt-5">
+                    <h4 class="mt-3">Requirements</h4>
+                    <ul class="list-group mt-4">
+                      {% for requirement in course.requirements_set.all %}
+                        <li>{{requirement.points}}.</li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <div class="single-course-curriculum mt-5 mb-5">
+                    <h4 class="mt-5">Curriculum</h4>
+                    <div class="single-course-curriculum-video mt-5">
+                      {% for lesson in course.lesson_set.all %}
+                      <div class="single-course-lesson-video mb-5">
+                        <h5
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#id{{lesson.id}}"
+                          aria-expanded="false"
+                          aria-controls="collapseExample"
+                        >
+                          <i class="fa-solid fa-plus"></i>
+                          {{lesson.name}}
+                        </h5>
+                        {% for video in lesson.video_set.all %}
+                        <div
+                          class="collapse single-course-lesson-video-child"
+                          id="id{{video.lesson.id}}"
+                        >
+                          <div class="float-start">
+                            <a href="#">
+                              <h6 class="curriculum-icon">
+                                <i class="fa-brands fa-youtube"></i>
+                                {{video.title}}
+                              </h6></a>
+                          </div>
+                          <div class="float-end">
+                            <a href="#"
+                              ><h6 class="curriculum-play">
+                                <i class="fa-solid fa-play"></i> {{video.time_duration}} min
+                              </h6></a>
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="single-course-instructor mt-5">
+                    <h4 class="mt-5">About the Instructor</h4>
+                    <div class="single-course-instructor-container mt-5">
+                      <div class="row justify-content-center">
+                        <div class="col-lg-3 col-5 text-center">
+                          <img
+                            class="img-fluid"
+                            src="/{{course.instructor.instructor_profile}}"
+                            alt=""
+                          />
+                        </div>
+                        <div
+                          class="col-lg-9 col-7 d-flex flex-wrap align-content-center"
+                        >
+                          <div class="single-course-instructor-intro">
+                            <h5>{{course.instructor.name}}</h5>
+                            <p>{{course.instructor.instructor_title}}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="single-course-instructor-des mt-5">
+                        <p>
+                          {{course.instructor.about_instructor|linebreaks}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-12">
+                <div class="single-course-feature">
+                  <div class="card" style="width: 100%">
+                    <iframe
+                      style="width: 100%"
+                      width="560"
+                      height="315"
+                      src="https://www.youtube.com/embed/MAwOPyOztDs"
+                      title="YouTube video player"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                    ></iframe>
+                    <div class="card-body">
+                      <p class="card-text">
+                        <div class="single-course-feature-des">
+                          <div class="single-course-feature-title">
+                            <div class="single-course-prices">
+                              <div class="row">
+                                {% if course.price == 0 %}
+                                <div class="col-sm-6 col-7">
+                                  <div class="single-course-prices-dis">
+                                    <h3 style="font-weight: 900; font-size: 33px">Free</h3>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6 col-5" style="text-align: end;font-size: 22px;">
+                                  <div class="single-course-prices-dis">
+                                    <h6 class="price-right badge" style="background-color: rgba(1, 130, 10, .5);">100% off</h6>
+                                  </div>
+                                </div>
+                                {% else %}
+                                <div class="col-sm-6 col-7">
+                                  <div class="single-course-prices-dis">
+                                    <h3 style="font-weight: 900;">৳ {% discount_calculation course.price course.discount %}</h3>
+                                    <del class="original-price">৳ {{course.price}}</del>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6 col-5" style="text-align: end;font-size: 22px;">
+                                  <div class="single-course-prices-dis">
+                                    <h6 class="price-right badge" style="background-color: rgba(1, 130, 10, .5);">20% off</h6>
+                                  </div>
+                                </div>
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </p>
+
+                      {% if check_enroll is None %}
+                      <a href="/checkout/{{course.slug}}" style="width: 100%;background-color: #01820a;color: white;padding: 10px;" class="btn mt-2">Enroll Now</a>
+                      {% else %}
+                      <button type="submit" style="width: 100%;background-color: rgba(1, 130, 10, .5);color: white;padding: 10px;" class="btn mt-2">Already Enrolled</button>
+                      {% endif %}
+
+                    </div>
+                    <div class="single-course-details text-center mt-3">
+                      <h6><i class="fa-solid fa-book"></i> Lectures - {{course.video_set.all.count}}</h6>
+                      <hr>
+                      <h6><i class="fa-solid fa-clock"></i> Duration - {{time_duration.sum}} min</h6>
+                      <hr>
+                      <h6><i class="fa-solid fa-globe"></i> Language - {{course.language}}</h6>
+                      <hr>
+                      <h6><i class="fa-solid fa-users"></i> Enrolled - 190 students</h6>
+                      <hr>
+                      <h6><i class="fa-solid fa-chart-simple"></i> Skill level - {{course.level.name}}</h6>
+                      <hr>
+                      <h6><i class="fa-solid fa-newspaper"></i> Deadline - {{course.deadline}}</h6>
+                      <hr>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- single course -->
+{% endblock %}

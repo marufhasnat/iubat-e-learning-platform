@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load course_tags %}
+<!-- featured-courses  -->
+    <section class="featured-courses" id="featured-courses">
+      <div class="container">
+        <div class="row">
+          <h4 style="font-weight: 900" class="mt-5 mb-3">Searched Result:</h4>
+        </div>
+        {% if course|length < 1 %}
+          <div class="row justify-content-center">
+            <div class="col-md-12">
+              <img class="img-fluid" src="{% static 'assets/images/404.gif' %}" alt="">
+            </div>
+          </div>
+        {% else %}
+          <div class="row mb-5">
+            {% for single_course in course %}
+            <div class="col-lg-4 col-md-6">
+              <div class="card">
+                <div class="course-img-container">
+                  <img
+                    src="{{single_course.featured_image}}"
+                    class="card-img-top img-fluid"
+                    alt=""
+                  />
+                </div>
+                <div class="card-body">
+                  <div class="course-info">
+                    <span style="color: #7783ac">Topic: {{single_course.category.name}}</span>
+                    <h5 class="card-title">
+                      {{single_course.title}}
+                    </h5>
+                    <h6>Instructor: <i>{{single_course.instructor.name}}</i></h6>
+                    <p class="card-text">
+                      Some quick example text to build on the card title and make
+                      up the bulk of the card's content.
+                    </p>
+                    <div class="course-info">
+                      <div class="float-start">
+                        <span style="color: #7783ac"
+                          ><i class="fa-solid fa-clock"></i> 50 min</span
+                        ><br />
+                        <span style="color: #7783ac"
+                          ><i class="fa-solid fa-book"></i> 5 lessons</span
+                        >
+                      </div>
+
+                      <div class="float-end">
+                        {% if single_course.price == 0 %}
+                          <h6 style="color: rgb(1, 130, 10); font-weight: 900">
+                            <span class="badge bg-success">Free</span>
+                          </h6>
+                        {% else %}
+                          <del style="color: red; font-weight: 900">৳ {{single_course.price}}</del>
+                          <h6 style="color: rgb(1, 130, 10); font-weight: 900">
+                            ৳ {% discount_calculation single_course.price single_course.discount %}
+                          </h6>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        <div class="row justify-content-center mb-5">
+          <div class="featured-courses-btn text-center">
+            <a href="{% url 'courses' %}" class="btn">Explore All Courses ></a>
+          </div>
+        </div>
+      </div>
+    </section>
+<!-- featured-courses  -->
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- register -->
+    <section class="login">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="login-title text-center mt-5">
+              <h2>Register</h2>
+              <!-- <div class="login-nav"> -->
+              <!-- breadcrumb -->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{%url 'home'%}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Register
+                  </li>
+                </ol>
+              </nav>
+              <!-- breadcrumb -->
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-4">
+            <div class="login-form mt-5">
+              <h5>Sign Up and Start Learning!</h5>
+
+              {% include 'components/msg.html' %}
+
+              <form action="{%url 'register'%}" method="post" class="mt-5">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="exampleFormControlInput3" class="form-label"
+                    >Username</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="exampleFormControlInput3"
+                    placeholder="johndoe"
+                    name="username"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="exampleFormControlInput1" class="form-label"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="exampleFormControlInput1"
+                    placeholder="name@example.com"
+                    name="email"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="exampleFormControlInput2" class="form-label"
+                    >Password</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="exampleFormControlInput2"
+                    placeholder="* * * * * * * * * * *"
+                    name="password"
+                    required
+                  />
+                </div>
+                <div class="col-md-12">
+                  <p>Forgot Password?</p>
+                  <button class="btn login-submit" type="submit">
+                    SIGN UP
+                  </button>
+                </div>
+              </form>
+              <div class="form-sign-up mt-3 mb-5 text-center">
+                <p>Already have an account? <a href="/accounts/login/">Log In</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- register -->
+{% endblock %}

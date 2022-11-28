@@ -1,0 +1,55 @@
+
+      {% load static %}
+        {% load course_tags %}
+          {% if course|length < 1 %}
+            <img class="img-fluid" src="{% static 'assets/images/404.gif' %}" alt="">
+          {% else %}
+            {% for single_course in course %}
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="course-img-container">
+                    <img
+                      src="{{single_course.featured_image}}"
+                      class="card-img-top img-fluid"
+                      alt=""
+                    />
+                  </div>
+                  <div class="card-body">
+                    <div class="course-info">
+                      <span style="color: #7783ac">Topic: {{single_course.category.name}}</span>
+                      <a style="text-decoration:none; color:black" href="{{ single_course.get_absolute_url }}"><h5 class="card-title">{{single_course.title}}</h5></a>
+                      <h6>Instructor: <i>{{single_course.instructor.name}}</i></h6>
+                      <p class="card-text">
+                        {{single_course.semi_des}}
+                      </p>
+                      <div class="course-info">
+                        <div class="float-start">
+                          <span style="color: #7783ac"
+                            ><i class="fa-solid fa-clock"></i> 50 min</span
+                          ><br />
+                          <span style="color: #7783ac"
+                            ><i class="fa-solid fa-book"></i> 5 lessons</span
+                          >
+                        </div>
+
+                        <div class="float-end">
+
+                          {% if single_course.price == 0 %}
+                            <h6 style="color: rgb(1, 130, 10); font-weight: 900">
+                              <span class="badge bg-success" style="font-size: 18px">Free</span>
+                            </h6>
+                          {% else %}
+                            <del style="color: red; font-weight: 900">৳ {{single_course.price}}</del>
+                            <h6 style="color: rgb(1, 130, 10); font-weight: 900">
+                                ৳ {% discount_calculation single_course.price single_course.discount %}
+                            </h6>
+                          {% endif %}
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}

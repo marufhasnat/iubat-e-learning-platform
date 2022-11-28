@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load course_tags %}
+
+    <!-- hero -->
+    <section class="hero mb-5">
+      <div class="hero-overlay">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="hero-content mt-5 mb-5">
+                <h2>Learn online from the faculties in virtual education</h2>
+                <p class="mt-5 mb-5">
+                  Expand your own skills and engage with a global network of
+                  learners through our flexible, online courses. Wherever you
+                  are in your career—or the world—IUBAT E-Learning Platform can
+                  help you achieve your goals for your future professinal life.
+                </p>
+                <a href="#featured-courses" class="mt-3 btn btn-light"
+                  ><h4>Explore All Courses</h4></a
+                >
+              </div>
+            </div>
+            <div class="col-md-6 d-flex flex-wrap align-content-center">
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/1jmsVl9Eges"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- hero -->
+
+    <!-- subject-area -->
+    <section class="subject-area mb-5">
+      <div class="container">
+        <div class="row">
+          <div class="subject-area-title mb-2">
+            <h4>Choose a subject area:</h4>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-4">
+            <div class="single-subject">
+              <h5>Computer Science & Engineering</h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="single-subject">
+              <h5>Electrical & Electronics Engineering</h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="single-subject">
+              <h5>Mechanical Engineering</h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="single-subject">
+              <h5>Civil Engineering</h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="single-subject">
+              <h5>Finance & Accounting</h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="single-subject">
+              <h5>Agricultural Science</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- subject-area -->
+
+    <!-- featured-courses  -->
+    <section class="featured-courses" id="featured-courses">
+      <div class="container">
+        <div class="row">
+          <h4 style="font-weight: 900" class="text-center mt-3 mb-4">
+            ----- FEATURED COURSES -----
+          </h4>
+        </div>
+        <div class="row mb-5 justify-content-center">
+          {% for single_course in course %}
+          <div class="col-lg-4 col-md-6">
+            <div class="card">
+              <div class="course-img-container">
+                <img
+                  src="{{single_course.featured_image}}"
+                  class="card-img-top img-fluid"
+                  alt=""
+                />
+              </div>
+              <div class="card-body">
+                <div class="course-info">
+                  <span style="color: #7783ac">Topic: {{single_course.category.name}}</span>
+                  <a style="text-decoration:none; color:black" href="{{ single_course.get_absolute_url }}"><h5 class="card-title">{{single_course.title}}</h5></a>
+                  <h6>Instructor: <i>{{single_course.instructor.name}}</i></h6>
+                  <p class="card-text">
+                    {{single_course.semi_des}}
+                  </p>
+                  <div class="course-info">
+                    <div class="float-start">
+                      <span style="color: #7783ac"
+                        ><i class="fa-solid fa-clock"></i> 50 min</span
+                      ><br />
+                      <span style="color: #7783ac"
+                        ><i class="fa-solid fa-book"></i> 5 lessons</span
+                      >
+                    </div>
+
+                    <div class="float-end">
+                      {% if single_course.price == 0 %}
+                        <h6 style="color: rgb(1, 130, 10); font-weight: 900">
+                          <span class="badge bg-success" style="font-size: 18px">Free</span>
+                        </h6>
+                      {% else %}
+                        <del style="color: red; font-weight: 900">৳ {{single_course.price}}</del>
+                        <h6 style="color: rgb(1, 130, 10); font-weight: 900">
+                          ৳ {% discount_calculation single_course.price single_course.discount %}
+                        </h6>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="row justify-content-center mb-5">
+          <div class="featured-courses-btn text-center">
+            <a href="{% url 'courses' %}" class="btn">Explore All Courses ></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- featured-courses  -->
+
+    <!-- services -->
+    <section class="services mb-4">
+      <div class="container">
+        <div class="row">
+          <h4 style="font-weight: 900" class="text-center mt-2 mb-3">
+            ----- WHAT SETS IUBAT ONLINE APART? -----
+          </h4>
+          <span style="font-size: 20px" class="text-center mt-4 mb-5"
+            >Our flexible, online programs are designed to bring the IUBAT
+            classroom to you, and are built around three key characteristics:
+          </span>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="services-container text-center">
+              <img class="img-fluid" src="{% static 'assets/images/icons_gear_96x96.svg' %}" alt="" />
+              <h5 class="services-title">Active</h5>
+              <p>
+                IUBAT Online courses are nothing like a typical
+                sit-back-and-listen lecture. You’ll engage in a new activity
+                every three to five minutes. Each element is designed to keep
+                you interested, involved, and on your toes.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="services-container text-center">
+              <img
+                class="img-fluid"
+                src="{% static 'assets/images/icons_social_96x96.svg' %}"
+                alt=""
+              />
+              <h5 class="services-title">Social</h5>
+              <p>
+                Engaging with your peers is a big part of what makes IUBAT
+                Online unique. You exchange ideas, offer input, and seek out
+                viewpoints from a community of learners gathered from around the
+                globe. In the process, you learn from each other’s experiences
+                and perspectives.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="services-container text-center">
+              <img
+                class="img-fluid"
+                src="{% static 'assets/images/icons_briefcase_96x96.svg' %}"
+                alt=""
+              />
+              <h5 class="services-title">Case-Based</h5>
+              <p>
+                Immerse yourself in real-world learning. Lessons are brought to
+                life through cases, which put you in the shoes of business
+                leaders. Hear firsthand the challenges they faced, and wrestle
+                with the same issues and imperfect information.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- services -->
+
+    <!-- faq  -->
+    <section class="faq">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <h3 class="mt-5 mb-4" style="font-weight: 900">Top FAQs</h3>
+            <hr style="color: white" />
+            <h5
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseExample"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >
+              How are IUBAT Online courses delivered?
+            </h5>
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body faq-body">
+                Our platform features short, highly produced videos of IUBAT
+                faculty and guest experts, interactive graphs and exercises,
+                cold calls to keep you engaged, and opportunities to contribute
+                to a vibrant online community.
+              </div>
+            </div>
+            <hr />
+            <h5
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseExample2"
+              aria-expanded="false"
+              aria-controls="collapseExample2"
+            >
+              Do I need to come to campus to participate in IUBAT Online
+              programs?
+            </h5>
+            <div class="collapse" id="collapseExample2">
+              <div class="card card-body faq-body">
+                No, all of our programs are 100 percent online, and available to
+                participants regardless of their location.
+              </div>
+            </div>
+            <hr />
+            <h5
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseExample3"
+              aria-expanded="false"
+              aria-controls="collapseExample3"
+            >
+              Does IUBAT offer an online MBA?
+            </h5>
+            <div class="collapse" id="collapseExample3">
+              <div class="card card-body faq-body">
+                No, IUBAT doesn't offer an online MBA.
+              </div>
+            </div>
+            <hr class="mb-5" />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- faq  -->
+{% endblock %}

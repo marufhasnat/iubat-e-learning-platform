@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load course_tags %}
+<hr />
+    <section class="not-found mt-5 mb-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="not-found-404 text-center">
+              <img style="" class="img-fluid" src="{% static 'assets/images/pin.gif' %}" alt="" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="alert alert-success alert-dismissible fade show mt-3" style="margin-bottom: -25px" role="alert">
+                <strong>Your pin is {{pin}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="login-form mt-5">
+              <form action="" method="post" class="mt-5">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label"
+                        >Mobile Number</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="exampleFormControlInput1"
+                        placeholder="name@example.com"
+                        pattern="01[3|5|6|7|8|9][0-9]{8}"
+                        name="phone"
+                        value="{{payment.phone}}"
+                        style="background: whitesmoke;"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="mb-3">
+                      <label for="exampleFormControlInput2" class="form-label"
+                        >Amount</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="exampleFormControlInput2"
+                        placeholder="name@example.com"
+                        pattern="01[3|5|6|7|8|9][0-9]{8}"
+                        name="price"
+                        value="{% discount_calculation course.price course.discount %}"
+                        style="background: whitesmoke;"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="mb-3">
+                      <label for="exampleFormControlInput3" class="form-label"
+                        >Pin Number</label
+                      >
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="exampleFormControlInput3"
+                        placeholder="Enter 4 Digits Pin Number"
+                        name="pin_number"
+                        pattern="[0-9]{4}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button class="btn login-submit" type="submit">
+                    Confirm Order
+                  </button>
+                </div>
+              </form>
+              <div class="form-sign-up mt-3 mb-5 text-center"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
