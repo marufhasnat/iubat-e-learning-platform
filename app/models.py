@@ -157,3 +157,12 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.user.first_name + " -- " + self.course.title
+
+
+class Review(models.Model):
+    name = models.CharField(max_length=100, null=True)
+    course_name = models.CharField(max_length=200, null=True)
+    review_course = models.TextField(max_length=1000, null=True)
+
+    def __str__(self):
+        return self.name + " reviews " + self.course_name

@@ -110,9 +110,16 @@ header ul li a:hover{
 /* subject-area */
 
 /* featured-courses  */
+.course-img-container {
+  overflow: hidden;
+}
 .course-img-container img {
   width: 100%;
   height: 200px;
+  transition: all 1.5s ease;
+}
+.course-img-container:hover img {
+  transform: scale(1.5);
 }
 .card {
   margin-top: 20px;
@@ -305,6 +312,10 @@ header ul li a:hover{
   text-decoration: none;
   color: black;
 }
+.single-course-lesson-video-child button {
+  background-color: white;
+  border: none;
+}
 .curriculum-icon i {
   color: red;
   margin-right: 10px;
@@ -331,6 +342,20 @@ header ul li a:hover{
   font-weight: 700;
   font-size: 18px;
   margin-left: 5px;
+}
+.modal-dialog {
+  max-width: 800px;
+  margin: 30px auto;
+}
+
+.modal-body {
+  position: relative;
+  padding: 0px;
+}
+.modal-body .btn-close {
+  position: absolute;
+  right: -30px;
+  top: 0;
 }
 /* single course */
 

@@ -78,22 +78,71 @@
                           id="id{{video.lesson.id}}"
                         >
                           <div class="float-start">
-                            <a href="#">
-                              <h6 class="curriculum-icon">
+                            {% if check_enroll is not None %}
+                              <button type="button" class="video-btn" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/{{video.youtube_id}}" data-bs-target="#myModal"
+                              ><h6 class="curriculum-icon">
                                 <i class="fa-brands fa-youtube"></i>
                                 {{video.title}}
-                              </h6></a>
+                              </h6>
+                              </button>
+                            {% else %}
+                              {% if video.preview == True %}
+                              <button type="button" class="video-btn" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/{{video.youtube_id}}" data-bs-target="#myModal"
+                              ><h6 class="curriculum-icon">
+                                <i class="fa-brands fa-youtube"></i>
+                                {{video.title}}
+                              </h6>
+                              </button>
+                              {% else %}
+                                <h6 class="curriculum-icon" style="color:gray" data-bs-toggle="tooltip" data-bs-placement="top" title="Enroll This Course!">
+                                  <i class="fa-brands fa-youtube"></i>
+                                  {{video.title}}
+                                </h6>
+                              {% endif %}
+                            {% endif %}
                           </div>
                           <div class="float-end">
-                            <a href="#"
+                            {% if check_enroll is not None %}
+                              <button type="button" class="video-btn" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/{{video.youtube_id}}" data-bs-target="#myModal"
                               ><h6 class="curriculum-play">
                                 <i class="fa-solid fa-play"></i> {{video.time_duration}} min
-                              </h6></a>
+                              </h6>
+                              </button>
+                            {% else %}
+                            {% if video.preview == True %}
+                              <button type="button" class="video-btn" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/{{video.youtube_id}}" data-bs-target="#myModal"
+                              ><h6 class="curriculum-play">
+                                <i class="fa-solid fa-play"></i> {{video.time_duration}} min
+                              </h6>
+                              </button>
+                              {% else %}
+                                <h6 class="curriculum-play">
+                                  <i class="fa-solid fa-lock"></i> {{video.time_duration}} min
+                                </h6>
+                              {% endif %}
+                            {% endif %}
                           </div>
                         </div>
                         {% endfor %}
                       </div>
                       {% endfor %}
+
+                      <!-- Modal -->
+                      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></span>
+                              </button>
+                              <!-- 16:9 aspect ratio -->
+                              <div class="ratio ratio-16x9">
+                                <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow="autoplay" allowfullscreen></iframe>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
                   <div class="single-course-instructor mt-5">
@@ -120,6 +169,64 @@
                         <p>
                           {{course.instructor.about_instructor|linebreaks}}
                         </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="single-course-review mt-5" style="margin-top: 65px !important">
+                    <h4 class="mt-5">Review Course Form</h4>
+                    <div class="single-course-review-container">
+                      <div class="login-form mt-4">
+                        {% if messages %}
+                        <div class="alert alert-success alert-dismissible fade show mt-3" style="margin-bottom: -25px" role="alert">
+                            <strong>{{messages}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+                        <form action="" method="post">
+                          {% csrf_token %}
+                          <div class="mb-3" style="display: none">
+                            <label for="exampleFormControlInput1" class="form-label"
+                              >Name</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="exampleFormControlInput1"
+                              value="{{user.first_name}} {{user.last_name}} "
+                              name="name"
+                              required
+                            />
+                          </div>
+                          <div class="mb-3" style="display: none">>
+                            <label for="exampleFormControlInput2" class="form-label"
+                              >Course Name</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="exampleFormControlInput2"
+                              value="{{course.title}}"
+                              name="course_name"
+                              required
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label for="exampleFormControlInput3" class="form-label"
+                              >Review Course</label
+                            >
+                            <textarea
+                              class="form-control"
+                              id="exampleFormControlInput3"
+                              rows="5"
+                              placeholder="Review the course"
+                              name="review_course"
+                              required
+                          ></textarea>
+                          </div>
+                          <div class="col-md-4">
+                            <button class="btn login-submit" type="submit">SUBMIT</button>
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>
@@ -188,7 +295,7 @@
                       <hr>
                       <h6><i class="fa-solid fa-globe"></i> Language - {{course.language}}</h6>
                       <hr>
-                      <h6><i class="fa-solid fa-users"></i> Enrolled - 190 students</h6>
+                      <h6><i class="fa-solid fa-users"></i> Enrolled - {{course.usercourse_set.all.count}} students</h6>
                       <hr>
                       <h6><i class="fa-solid fa-chart-simple"></i> Skill level - {{course.level.name}}</h6>
                       <hr>

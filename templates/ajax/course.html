@@ -17,7 +17,11 @@
                   <div class="card-body">
                     <div class="course-info">
                       <span style="color: #7783ac">Topic: {{single_course.category.name}}</span>
+                      {% if user.is_authenticated %}
                       <a style="text-decoration:none; color:black" href="{{ single_course.get_absolute_url }}"><h5 class="card-title">{{single_course.title}}</h5></a>
+                      {% else %}
+                      <a style="text-decoration:none; color:black" href="/accounts/login/"><h5 class="card-title">{{single_course.title}}</h5></a>
+                      {% endif %}
                       <h6>Instructor: <i>{{single_course.instructor.name}}</i></h6>
                       <p class="card-text">
                         {{single_course.semi_des}}
@@ -25,10 +29,10 @@
                       <div class="course-info">
                         <div class="float-start">
                           <span style="color: #7783ac"
-                            ><i class="fa-solid fa-clock"></i> 50 min</span
+                            ><i class="fa-solid fa-users"></i> {{single_course.usercourse_set.all.count}} students</span
                           ><br />
                           <span style="color: #7783ac"
-                            ><i class="fa-solid fa-book"></i> 5 lessons</span
+                            ><i class="fa-solid fa-book"></i> {{single_course.video_set.all.count}} lessons</span
                           >
                         </div>
 

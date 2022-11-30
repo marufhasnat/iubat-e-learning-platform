@@ -42,9 +42,7 @@
               <div class="card-body">
                 <div class="course-info">
                   <span style="color: #7783ac">Tags: {{single_course.course.category.name}}</span>
-                  <h5 class="card-title">
-                    {{single_course.course.title}}
-                  </h5>
+                  <a style="text-decoration:none; color:black" href="{{ single_course.course.get_absolute_url }}"><h5 class="card-title">{{single_course.course.title}}</h5></a>
                   <h6>Instructor: <i>Jhunkar Mahbub</i></h6>
                   <p class="card-text">
                     {{single_course.course.semi_des}}
@@ -52,10 +50,10 @@
                   <div class="course-info">
                     <div class="float-start">
                       <span style="color: #7783ac"
-                        ><i class="fa-solid fa-clock"></i> 50 min</span
+                        ><i class="fa-solid fa-users"></i> {{single_course.course.usercourse_set.all.count}} students</span
                       ><br />
                       <span style="color: #7783ac"
-                        ><i class="fa-solid fa-book"></i> 5 lessons</span
+                        ><i class="fa-solid fa-book"></i> {{single_course.course.video_set.all.count}} lessons</span
                       >
                     </div>
 
@@ -65,7 +63,7 @@
                               <span class="badge bg-success" style="font-size: 18px">Free</span>
                             </h6>
                       {% else %}
-                            <del style="color: red; font-weight: 900">৳ {{single_course.price}}</del>
+                            <del style="color: red; font-weight: 900">৳ {{single_course.course.price}}</del>
                             <h6 style="color: rgb(1, 130, 10); font-weight: 900">
                                 ৳ {% discount_calculation single_course.course.price single_course.course.discount %}
                             </h6>

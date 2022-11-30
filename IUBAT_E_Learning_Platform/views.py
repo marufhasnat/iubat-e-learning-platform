@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from app.models import Course, Categories, Level, Video, UserCourse, Payment
+from app.models import Course, Categories, Level, Video, UserCourse, Payment, Review
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.db.models import Sum
@@ -78,6 +78,7 @@ def course_details(request, slug):
     course_id = Course.objects.get(slug=slug)
     course = Course.objects.filter(slug=slug)
     time_duration = Video.objects.filter(course__slug=slug).aggregate(sum=Sum('time_duration'))
+    messages = ''
 
     try:
         check_enroll = UserCourse.objects.get(user=request.user, course=course_id)
@@ -89,10 +90,24 @@ def course_details(request, slug):
     else:
         return redirect('404')
 
+    if request.method == "POST":
+        name = request.POST.get('name')
+        course_name = request.POST.get('course_name')
+        review_course = request.POST.get('review_course')
+
+        review = Review(
+            name=name,
+            course_name=course_name,
+            review_course=review_course,
+        )
+        review.save()
+        messages = 'Thank you for your review!'
+
     context = {
         'course': course,
         'time_duration': time_duration,
         'check_enroll': check_enroll,
+        'messages': messages
     }
 
     return render(request, 'course/course_details.html', context)
