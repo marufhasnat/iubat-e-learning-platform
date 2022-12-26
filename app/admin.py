@@ -10,12 +10,16 @@ class Requirements_TabularLine(admin.TabularInline):
     model = Requirements
 
 
+class Lesson_TabularLine(admin.TabularInline):
+    model = Lesson
+
+
 class Video_TabularLine(admin.TabularInline):
     model = Video
 
 
 class course_admin(admin.ModelAdmin):
-    inlines = (what_you_learn_TabularLine, Requirements_TabularLine, Video_TabularLine)
+    inlines = (what_you_learn_TabularLine, Requirements_TabularLine, Lesson_TabularLine, Video_TabularLine)
 
 
 # Register your models here.

@@ -135,7 +135,7 @@ class UserCourse(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user.first_name + " - " + self.course.title
+        return self.user.username + " buys " + self.course.title + " course"
 
 
 class Payment(models.Model):
@@ -165,4 +165,4 @@ class Review(models.Model):
     review_course = models.TextField(max_length=1000, null=True)
 
     def __str__(self):
-        return self.name + " reviews " + self.course_name
+        return "Reviews of " + self.course_name

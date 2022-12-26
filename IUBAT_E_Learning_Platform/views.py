@@ -193,6 +193,7 @@ def verify_payment(request, slug, pin, pk):
             user_course = UserCourse(user=request.user, course=course)
             user_course.save()
             payment.user_course = user_course
+            payment.status = True
             payment.save()
             return redirect('success', slug=course.slug, pk=payment.order_id)
         else:

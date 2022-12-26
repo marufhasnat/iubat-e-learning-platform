@@ -37,6 +37,18 @@
                       <label for="exampleFormControlInput3" class="form-label"
                         >First Name</label
                       >
+                      {% if user.first_name == '' %}
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="exampleFormControlInput3"
+                        placeholder="Please Complete Your Name in Profile Part"
+                        name="first_name"
+                        style="background: whitesmoke;"
+                        required
+                        readonly
+                      />
+                      {% else %}
                       <input
                         type="text"
                         class="form-control"
@@ -47,22 +59,36 @@
                         style="background: whitesmoke;"
                         readonly
                       />
+                      {% endif %}
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label for="exampleFormControlInput30" class="form-label"
                         >Last Name</label>
+                      {% if user.last_name == '' %}
                       <input
                         type="text"
                         class="form-control"
                         id="exampleFormControlInput30"
-                        placeholder="Last Name"
+                        placeholder="Please Complete Your Name in Profile Part"
+                        name="last_name"
+                        style="background: whitesmoke;"
+                        required
+                        readonly
+                      />
+                      {% else %}
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="exampleFormControlInput30"
+                        placeholder="First Name"
                         name="last_name"
                         value="{{user.last_name}}"
                         style="background: whitesmoke;"
                         readonly
                       />
+                      {% endif %}
                     </div>
                   </div>
                 </div>
@@ -196,9 +222,15 @@
                   </div>
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-4">
+                  {% if user.first_name == '' and user.last_name == '' %}
+                  <button class="btn login-submit disabled">
+                    Complete Profile First
+                  </button>
+                  {% else %}
                   <button class="btn login-submit" type="submit">
                     PLACE ORDER
                   </button>
+                  {% endif %}
                 </div>
               </form>
               <div class="form-sign-up mt-3 mb-5 text-center"></div>
